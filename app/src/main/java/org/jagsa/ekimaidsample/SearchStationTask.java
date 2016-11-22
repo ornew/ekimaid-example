@@ -1,4 +1,4 @@
-package jagsa.org.ekimaidsample;
+package org.jagsa.ekimaidsample;
 
 import android.os.AsyncTask;
 

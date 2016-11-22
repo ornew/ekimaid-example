@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jagsa.org.ekimaidsample">
 
+    <!-- インターネットへの接続を許可します -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- インターネットの状態を取得することを許可します -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application

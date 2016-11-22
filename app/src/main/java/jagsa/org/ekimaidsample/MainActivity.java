@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     // 引数は検索する文字列にしてあります(詳しくは、SearchTaskを見てください)
                     task.execute(serach_word);
                 } else {
-                    // 入力が空だった場合は実行せずにメッセージを出力します
+                    // 入力が空だった場合は検索を実行せずにメッセージを出力します
                     print("検索する文字を入力してください。");
                     // ボタンを再びオンにします
                     button_search.setEnabled(true);

@@ -17,30 +17,51 @@ import java.net.URL;
  */
 
 public class SearchStationTask extends AsyncTask<String, Void, JSONObject> {
+    // doInBackgroundメソッドをオーバーライドします
+    // このメソッドは非同期に実行されます
+    // このメソッドの中でUIの操作はできません
+    // 引数に検索文字列を受け取り、通信で取得したJSONを返します
     @Override
     protected JSONObject doInBackground(String... strings) {
         BufferedReader reader = null;
         StringBuilder response = new StringBuilder();
         try {
+            // APIのリクエストのためのURLを作ります
+            // ここでは駅すぱあとの簡易駅情報取得APIを呼び出します
+            // APIの仕様は公式リファレンスを読んで下さい
+            // 公式リファレンス： http://docs.ekispert.com/v1/le/station/light.html
+            // ここでは、クエリパラメータnameに引数で受け取った検索文字を指定します
+            // 駅すぱあとのAPIリクエストには、APIキーをクエリパラメータkeyに指定する必要があります
             URL api_request_url = new URL(
                     "http://api.ekispert.jp/v1/json/station/light"
                             + "?key=" + APIKEY.ekispert
                             + "&name=" + strings[0]);
 
+            // URLに対するHTTP通信を開きます
             HttpURLConnection connection = (HttpURLConnection) api_request_url.openConnection();
+            // HTTPリクエストはGETを指定します
             connection.setRequestMethod("GET");
+            // 通信を接続します
             connection.connect();
 
+            // レスポンスを取得するためのストリームを開きます
             reader = new BufferedReader(new InputStreamReader(api_request_url.openStream()));
+
+            // レスポンスを文字列に変換します
             String line;
             while ((line = reader.readLine()) != null) {
                 response.append(line).append("\n");
             }
+
+            // 文字列に変換したレスポンスをJSONオブジェクトに変換して、戻り値として返します
             return new JSONObject(response.toString());
+
         } catch (JSONException | IOException e) {
+            // 何らかのエラーが発生したため、スタックトレースして通信をキャンセルします
             e.printStackTrace();
             cancel(true);
         } finally {
+            // 通信の成否にかかわらず、ストリームが開いている場合はcloseします
             if (reader != null) {
                 try {
                     reader.close();
@@ -51,6 +72,9 @@ public class SearchStationTask extends AsyncTask<String, Void, JSONObject> {
                 }
             }
         }
+        // 正常に通信を終えた場合は既にreturnしているはずなので
+        // ここが実行される場合は何らかのエラーが発生しています
+        // ですので、ここではnullを返すことにします
         return null;
     }
 

@@ -9,12 +9,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 /**
- * Created by ornew on 2016/11/22.
+ * Created on 11/22, 2016.
+ * Copyright 2016 Arata Furukawa <old.river.new@gmail.com>.
  */
 
 public class SearchStationTask extends AsyncTask<String, Void, JSONObject> {

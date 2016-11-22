@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">駅めいど サンプル版</string>
+    <string name="search">検索</string>
+    <string name="search_word">検索文字</string>
 </resources>

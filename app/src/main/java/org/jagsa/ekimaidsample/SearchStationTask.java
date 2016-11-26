@@ -25,6 +25,7 @@ public class SearchStationTask extends AsyncTask<String, Void, JSONObject> {
     protected JSONObject doInBackground(String... strings) {
         BufferedReader reader = null;
         StringBuilder response = new StringBuilder();
+        HttpURLConnection connection = null;
         try {
             // APIのリクエストのためのURLを作ります
             // ここでは駅すぱあとの簡易駅情報取得APIを呼び出します
@@ -38,14 +39,14 @@ public class SearchStationTask extends AsyncTask<String, Void, JSONObject> {
                             + "&name=" + strings[0]);
 
             // URLに対するHTTP通信を開きます
-            HttpURLConnection connection = (HttpURLConnection) api_request_url.openConnection();
+            connection = (HttpURLConnection) api_request_url.openConnection();
             // HTTPリクエストはGETを指定します
             connection.setRequestMethod("GET");
             // 通信を接続します
             connection.connect();
 
             // レスポンスを取得するためのストリームを開きます
-            reader = new BufferedReader(new InputStreamReader(api_request_url.openStream()));
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
             // レスポンスを文字列に変換します
             String line;
@@ -70,6 +71,10 @@ public class SearchStationTask extends AsyncTask<String, Void, JSONObject> {
                     e.printStackTrace();
                     cancel(true);
                 }
+            }
+            // 接続を閉じます
+            if(connection != null) {
+                connection.disconnect();
             }
         }
         // 正常に通信を終えた場合は既にreturnしているはずなので

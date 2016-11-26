@@ -17,6 +17,8 @@ import java.net.URL;
  */
 
 public class SearchStationTask extends AsyncTask<String, Void, JSONObject> {
+    protected String error_message = "";
+
     // doInBackgroundメソッドをオーバーライドします
     // このメソッドは非同期に実行されます
     // このメソッドの中でUIの操作はできません
@@ -60,6 +62,7 @@ public class SearchStationTask extends AsyncTask<String, Void, JSONObject> {
         } catch (JSONException | IOException e) {
             // 何らかのエラーが発生したため、スタックトレースして通信をキャンセルします
             e.printStackTrace();
+            error_message = e.toString();
             cancel(true);
         } finally {
             // 通信の成否にかかわらず、ストリームが開いている場合はcloseします

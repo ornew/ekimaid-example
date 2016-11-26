@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private void print(String text) {
         text_output.setText(text_output.getText() + text);
     }
+    private void println(String text) {
+        print(text + '\n');
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 //==========================================
                                 // 解析はせずにJSONをそのまま表示します
-                                print(results.toString(2));
+                                println(results.toString(2));
                                 //==========================================
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -78,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     protected void onCancelled() {
                         super.onCancelled();
-                        print("エラーが発生しました。");
+                        println("エラーが発生しました。");
+                        println(super.error_message);
+                        button_search.setEnabled(true);
                     }
                 };
 

@@ -5,9 +5,6 @@
     <!-- インターネットへの接続を許可します -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- インターネットの状態を取得することを許可します -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

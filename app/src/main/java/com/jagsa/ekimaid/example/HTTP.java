@@ -1,4 +1,4 @@
-package com.jagsa.ekimaid.sample;
+package com.jagsa.ekimaid.example;
 
 import java.io.BufferedReader;
 import java.io.IOException;

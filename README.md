@@ -6,10 +6,10 @@
 
 ## Usage
 
-ソースコードに`APIKEY.java`が入っていませんので、そのままではビルドできません。下記ファイルにAPIキーを入れて`app/src/main/java/jagsa/org/ekimaidsample`の中に保存してください。
+ソースコードに`APIKEY.java`が入っていませんので、そのままではビルドできません。下記ファイルにAPIキーを入れて`app/src/main/java/com/jagsa/ekimaid/sample`の中に保存してください。
 
 ```java
-package jagsa.org.ekimaidsample;
+package com.jagsa.ekimaid.sample;
 
 public class APIKEY {
     static String ekispert = "<駅すぱあと Web API のキー>";

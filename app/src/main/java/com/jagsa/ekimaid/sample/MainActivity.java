@@ -1,4 +1,4 @@
-package org.jagsa.ekimaidsample;
+package com.jagsa.ekimaid.sample;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
     //
     // エラーが発生した時に表示するためのメソッドを定義します
     //
-    //   引　数: String -> エラーメッセージです
+    //   引　数: String -> エラーメッセージ
     //   戻り値: なし
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////

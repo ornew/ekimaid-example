@@ -108,8 +108,9 @@ public class MainActivity extends AppCompatActivity {
                 // 駅すぱあとのAPIリクエストには、APIキーをクエリパラメータkeyに指定する必要があります
                 URL api_request_url = new URL(
                         "http://api.ekispert.jp/v1/json/station/light"
-                                + "?key=" + APIKEY.ekispert
-                                + "&name=" + strings[0]);
+                                + "?key=" + APIKEY.ekispert // APIを利用するために発行されたAPIキーです
+                                + "&type=train"             // 電車の駅に限定します
+                                + "&name=" + strings[0]);   // 引数で渡された文字で検索します
 
                 // URLにHTTP通信でリクエストを送信します
                 // HTTP.requestメソッドはHTTP.javaに定義してあります

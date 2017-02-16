@@ -1,18 +1,24 @@
 package com.jagsa.ekimaid.example;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created on 11/22, 2016.
@@ -61,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     button_search.setEnabled(true); // ボタンを有効に戻します
                 } else {
                     // 入力が空でなければ非同期に駅を検索するタスクを作成します
-                    task_search_station = new AsyncSearchStationTask();
+                    task_search_station = new AsyncSearchStationTask(MainActivity.this);
 
                     // タスクを実行します
                     // 引数は検索する文字列にしてあります(詳しくは、AsyncSearchStationTaskを見てください)
@@ -85,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private class AsyncSearchStationTask extends AsyncTask<String, Void, String> {
         private String error_message = ""; // 通信中にエラーが起きた場合に保存するメッセージ文字列です
+        private Context context; // ダイアログを表示するためのコンテキストです
+
+        AsyncSearchStationTask(Context context){
+            this.context = context;
+        }
 
         //------------------------------------------------------------------------------------------
         // doInBackgroundメソッドをオーバーライドします
@@ -149,17 +160,43 @@ public class MainActivity extends AppCompatActivity {
                 // JSONオブジェクトの操作に失敗するとJSONExceptionという例外が発生するので
                 // try-catch構文で例外処理をする必要があります
                 try {
-                    //##############################################################################
-                    //##############################################################################
-
                     // レスポンスの文字をJSONとして解析します
                     JSONObject json = new JSONObject(results);
+                    JSONObject resultSet = json.getJSONObject("ResultSet");
+                    if(resultSet.has("Point")) {
+                        JSONArray points = resultSet.optJSONArray("Point");
+                        if (points == null) {
+                            points = new JSONArray();
+                            points.put(resultSet.getJSONObject("Point"));
+                        }
 
-                    // それ以上の解析はせずにJSONをそのまま表示します
-                    println(json.toString(2));
+                        final List<String> stations = new ArrayList<>();
+                        final List<Integer> codes = new ArrayList<>();
+                        for (int i = 0; i < points.length(); ++i) {
+                            JSONObject station = points
+                                    .getJSONObject(i)
+                                    .getJSONObject("Station");
+                            stations.add(station.getString("Name"));
+                            codes.add(station.getInt("code"));
+                        }
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                        dialog.setTitle("駅を選んでください。");
+                        dialog.setItems(
+                                stations.toArray(new CharSequence[stations.size()]),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        int code = codes.get(which);
+                                        println("選択された駅 " + stations.get(which));
+                                        println("選択された駅のコード " + code);
 
-                    //##############################################################################
-                    //##############################################################################
+                                        // 駅コードから駅付近のメイドカフェを検索する非同期タスクを実行します。
+                                        new AsyncSearchMaidCafeTask().execute(code);
+                                    }
+                                });
+                        dialog.create().show();
+                    } else {
+                        println("検索結果は0件でした。");
+                    }
                 } catch (JSONException e) {
                     // JSONの解析中にエラーが発生しました
                     e.printStackTrace();
@@ -173,6 +210,24 @@ public class MainActivity extends AppCompatActivity {
             // 成功・失敗にかかわらず、ボタンを有効に戻します
             // 失敗した場合もちゃんとボタンを有効に戻さないと、二度と検索できなくなりますね
             button_search.setEnabled(true);
+        }
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////
+    //
+    // AsyncSearchMaidCafeTaskを定義します
+    //
+    /////////////////////////////////////////////////////////////////////////////////
+    private class AsyncSearchMaidCafeTask extends AsyncTask<Integer, Void, String> {
+        @Override
+        protected String doInBackground(Integer... code) {
+            // ここで通信を行います
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
         }
     }
 

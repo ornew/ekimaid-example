@@ -163,9 +163,16 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     // レスポンスの文字をJSONとして解析します
                     JSONObject json = new JSONObject(results);
+
+                    // ルートのResultSetを取得します
                     JSONObject resultSet = json.getJSONObject("ResultSet");
+
+                    // 検索結果があればResultSetにPointが入っていますので、確認します
                     if(resultSet.has("Point")) {
+                        // 実際にPointを取得します
                         JSONArray points = resultSet.optJSONArray("Point");
+                        // 結果が一件だった場合、optJSONArrayで取得するとNullになるのでgetJSONObjectで
+                        // 取得し直します
                         if (points == null) {
                             points = new JSONArray();
                             points.put(resultSet.getJSONObject("Point"));
@@ -174,9 +181,11 @@ public class MainActivity extends AppCompatActivity {
                         final List<String> stations = new ArrayList<>();
                         final List<Integer> codes = new ArrayList<>();
                         for (int i = 0; i < points.length(); ++i) {
+                            // Pointの中のi番目のStationを取得します
                             JSONObject station = points
                                     .getJSONObject(i)
                                     .getJSONObject("Station");
+                            // Stationに入っているNameとcodeをそれぞれ取得して配列に追加します
                             stations.add(station.getString("Name"));
                             codes.add(station.getInt("code"));
                         }

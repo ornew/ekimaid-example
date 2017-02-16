@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView               text_output;         // 出力を表示するためのテキストビューです
     private Button                 button_search;       // 検索ボタンのビューです
     private AsyncSearchStationTask task_search_station; // 駅を検索をする非同期タスクです
+    private static final String KEYWORD = "橙幻郷";
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //

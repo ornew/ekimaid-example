@@ -6,6 +6,12 @@
 
 当日の資料は[こちら](https://docs.google.com/presentation/d/1hsmdsuS6nvzacyOLXdzfsV_7ohI0Bmm9eA9SqqYhB7k/edit?usp=sharing)になります。
 
+利用させていただいているAPIの仕様については、公式資料をご参照ください。
+
+- [駅すぱあとAPI - station/light](http://docs.ekispert.com/v1/api/station/light.html)
+- [駅すぱあとAPI - station](http://docs.ekispert.com/v1/api/station.html)
+- [Google Place API - places/web-service/search](https://developers.google.com/places/web-service/search)
+
 ## Usage
 
 ソースコードに`APIKEY.java`が入っていませんので、そのままではビルドできません。下記ファイルにAPIキーを入れて`app/src/main/java/com/jagsa/ekimaid/example`の中に保存してください。
